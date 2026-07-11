@@ -1,0 +1,11 @@
+manifest_version = "0.1.0"
+
+[project]
+id = "019c986e-5a80-7229-9e67-ec624f178eb4"
+name = "EdUnite OS"
+
+[workspace]
+include = [ "src/**" ]
+
+[canisters.frontend]
+depends_on = [ "backend" ]

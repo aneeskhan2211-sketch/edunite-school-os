@@ -1,0 +1,12 @@
+/* App-owned colour SYSTEM (NOT part of the locked design system).
+   EdUnite OS = "platform authority". Violet brand (the family anchor) + cool
+   slate neutrals, with a warm coral secondary as a complementary pop. These are
+   the contract defaults made explicit, plus the cool-neutral + coral system.
+   Loaded after index.css in main.tsx. */
+:root {
+  --brand-h: 285; /* primary / sidebar / ring — violet (family anchor) */
+  --secondary-h: 45; /* accent / hover tints — warm coral, complementary to violet */
+  --neutral-h: 275; /* grays lean cool slate */
+  --neutral-c: 1.4; /* a touch cooler/firmer than default */
+  --chart-1h: 285; /* branded violet primary data series */
+}

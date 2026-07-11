@@ -1,0 +1,545 @@
+/* EdUnite shared design tokens (LOCKED). The COMPONENTS + semantic meaning are
+   identical across every family app; each app sets a small PALETTE in an
+   app-owned file (src/accent.css) to become a distinct colour *system*, not
+   just a tinted button. The per-app contract (all optional, fallbacks below
+   reproduce EdUnite OS exactly):
+     --brand-h     primary hue        (default 285 = OS purple)
+     --secondary-h secondary/accent   (default 45  = family coral)
+     --neutral-h   gray temperature   (default ~260 = cool blue-gray)
+     --neutral-c   gray chroma scale  (default 1   = subtle; >1 = warmer/cooler grays)
+     --chart-1h    branded data series (default 40)
+   Meaning-colours (grades, severity, incident/commitment states, signals,
+   success/warning/danger) stay SHARED + fixed so they read the same everywhere.
+   Do not edit here in an app — edit shared/, re-run the sync. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Plus Jakarta Sans";
+    --font-body: "Inter";
+    --font-mono: "JetBrains Mono";
+    --radius: 0.5rem;
+
+    --background: 0.99 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --foreground: 0.15 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --card: 1.0 0.0 0;
+    --card-foreground: 0.15 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --popover: 1.0 0.0 0;
+    --popover-foreground: 0.15 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+
+    --primary: 0.35 0.18 var(--brand-h, 285);
+    --primary-foreground: 0.98 0.005 var(--brand-h, 285);
+
+    --secondary: 0.95 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --secondary-foreground: 0.25 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --muted: 0.95 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --muted-foreground: 0.5 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+
+    --accent: 0.55 0.16 var(--secondary-h, 45);
+    --accent-foreground: 0.98 0.01 var(--secondary-h, 45);
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 25;
+
+    --success: 0.58 0.16 150;
+    --success-foreground: 0.98 0.01 150;
+    --warning: 0.64 0.13 75;
+    --warning-foreground: 0.2 0.03 75;
+    --info: 0.55 0.15 250;
+    --info-foreground: 0.98 0.01 250;
+
+    --border: 0.92 calc(0.004 * var(--neutral-c, 1)) var(--neutral-h, 264);
+    --input: 0.9 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 264);
+    --ring: 0.55 0.19 var(--brand-h, 285);
+
+    --chart-1: 0.65 0.22 var(--chart-1h, 40);
+    --chart-2: 0.6 0.12 185;
+    --chart-3: 0.4 0.07 227;
+    --chart-4: 0.83 0.19 84;
+    --chart-5: 0.77 0.19 70;
+
+    --sidebar: 0.14 0.02 var(--brand-h, 285);
+    --sidebar-foreground: 0.97 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 270);
+    --sidebar-primary: 0.72 0.16 var(--brand-h, 285);
+    --sidebar-primary-foreground: 0.22 0.04 var(--brand-h, 285);
+    /* The sidebar is ALWAYS dark (see --sidebar above), in light mode too, so its
+       accent (hover/active highlight) must be a dark ELEVATED tone with light text
+       — not the near-white 0.95 that a light surface would use. Brand-tinted so the
+       active item picks up the app's hue. */
+    --sidebar-accent: 0.26 0.028 var(--brand-h, 285);
+    --sidebar-accent-foreground: 0.97 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 270);
+    --sidebar-border: 0.22 0.02 var(--brand-h, 285);
+    --sidebar-ring: 0.72 0.16 var(--brand-h, 285);
+
+    --grade-a: 0.65 0.22 140;
+    --grade-b: 0.75 0.18 140;
+    --grade-c: 0.7 0.15 85;
+    --grade-d: 0.65 0.19 22;
+    --grade-f: 0.55 0.22 25;
+    --trajectory-up: 0.65 0.22 140;
+    --trajectory-down: 0.65 0.19 22;
+    --overload: 0.7 0.15 85;
+    --high-stakes: 0.65 0.19 34;
+    --attendance-threshold: 0.65 0.22 140;
+    --chronic-absence: 0.55 0.22 25;
+    --severity-1: 0.78 0.12 85;
+    --severity-2: 0.72 0.15 85;
+    --severity-3: 0.68 0.16 34;
+    --severity-4: 0.62 0.18 22;
+    --severity-5: 0.52 0.22 18;
+    --incident-open: 0.72 0.15 85;
+    --incident-review: 0.65 0.19 34;
+    --incident-resolved: 0.65 0.22 140;
+    --incident-follow-up: 0.65 0.19 22;
+    --commitment-overdue: 0.55 0.22 25;
+    --commitment-due-today: 0.7 0.15 85;
+    --commitment-this-week: 0.75 0.14 102;
+    --commitment-coming-soon: 0.5 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --signal-opportunity: 0.65 0.22 140;
+    --signal-workload: 0.7 0.15 85;
+    --signal-risk: 0.55 0.22 25;
+    --signal-celebration: 0.65 0.18 185;
+    --signal-pattern: 0.6 0.12 250;
+    --signal-continuity: 0.55 0.16 var(--brand-h, 285);
+    --signal-commitment: 0.65 0.19 34;
+
+    --sped-overdue: 0.55 0.22 25;
+    --sped-due-soon: 0.7 0.15 85;
+    --sped-upcoming: 0.5 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --message-bubble-sent: 0.72 0.16 var(--brand-h, 285);
+    --message-bubble-received: 0.95 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --notification-critical: 0.55 0.22 25;
+    --notification-important: 0.7 0.15 85;
+    --notification-info: 0.5 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --pdf-frame: 0.95 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --export-btn: 0.35 0.18 var(--brand-h, 285);
+    --intervention-open: 0.72 0.15 85;
+    --intervention-review: 0.65 0.19 34;
+    --intervention-resolved: 0.65 0.22 140;
+    --intervention-follow-up: 0.65 0.19 22;
+    --outcome-positive: 0.65 0.22 140;
+    --outcome-neutral: 0.5 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --outcome-negative: 0.55 0.22 25;
+
+    --coral: 0.55 0.16 45;
+    --coral-foreground: 0.98 0.01 45;
+    --coral-strong: 0.55 0.16 45;
+    --coral-dark: 0.45 0.14 45;
+    --coral-mid: 0.65 0.18 45;
+    --coral-light: 0.95 0.02 45;
+    --coral-border: 0.65 0.18 45;
+  }
+
+  .dark {
+    --background: 0.145 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --foreground: 0.95 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --card: 0.18 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --card-foreground: 0.95 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --popover: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --popover-foreground: 0.95 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+
+    --primary: 0.72 0.16 var(--brand-h, 285);
+    --primary-foreground: 0.145 0.01 var(--brand-h, 285);
+
+    --secondary: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --secondary-foreground: 0.85 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --muted: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --muted-foreground: 0.55 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+
+    --accent: 0.55 0.16 var(--secondary-h, 45);
+    --accent-foreground: 0.98 0.01 var(--secondary-h, 45);
+
+    --destructive: 0.65 0.19 22;
+    --destructive-foreground: 0.145 0.01 25;
+
+    --success: 0.72 0.16 150;
+    --success-foreground: 0.145 0.01 150;
+    --warning: 0.78 0.14 80;
+    --warning-foreground: 0.18 0.03 80;
+    --info: 0.7 0.14 250;
+    --info-foreground: 0.145 0.01 250;
+
+    --border: 0.28 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 264);
+    --input: 0.28 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 264);
+    --ring: 0.72 0.16 var(--brand-h, 285);
+
+    --chart-1: 0.65 0.22 var(--chart-1h, 40);
+    --chart-2: 0.7 0.17 162;
+    --chart-3: 0.77 0.19 70;
+    --chart-4: 0.63 0.27 304;
+    --chart-5: 0.65 0.25 16;
+
+    --sidebar: 0.12 0.02 var(--brand-h, 285);
+    --sidebar-foreground: 0.97 calc(0.005 * var(--neutral-c, 1)) var(--neutral-h, 270);
+    --sidebar-primary: 0.78 0.18 var(--brand-h, 285);
+    --sidebar-primary-foreground: 0.22 0.04 var(--brand-h, 285);
+    --sidebar-accent: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --sidebar-accent-foreground: 0.85 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --sidebar-border: 0.2 0.02 var(--brand-h, 285);
+    --sidebar-ring: 0.78 0.18 var(--brand-h, 285);
+
+    --grade-a: 0.75 0.22 140;
+    --grade-b: 0.8 0.18 140;
+    --grade-c: 0.75 0.15 85;
+    --grade-d: 0.72 0.19 22;
+    --grade-f: 0.65 0.22 25;
+    --trajectory-up: 0.75 0.22 140;
+    --trajectory-down: 0.72 0.19 22;
+    --overload: 0.75 0.15 85;
+    --high-stakes: 0.72 0.19 34;
+    --attendance-threshold: 0.75 0.22 140;
+    --chronic-absence: 0.65 0.22 25;
+    --severity-1: 0.82 0.12 85;
+    --severity-2: 0.78 0.15 85;
+    --severity-3: 0.72 0.16 34;
+    --severity-4: 0.68 0.18 22;
+    --severity-5: 0.58 0.22 18;
+    --incident-open: 0.78 0.15 85;
+    --incident-review: 0.72 0.19 34;
+    --incident-resolved: 0.75 0.22 140;
+    --incident-follow-up: 0.72 0.19 22;
+    --commitment-overdue: 0.65 0.22 25;
+    --commitment-due-today: 0.75 0.15 85;
+    --commitment-this-week: 0.8 0.14 102;
+    --commitment-coming-soon: 0.4 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --signal-opportunity: 0.75 0.22 140;
+    --signal-workload: 0.75 0.15 85;
+    --signal-risk: 0.65 0.22 25;
+    --signal-celebration: 0.75 0.18 185;
+    --signal-pattern: 0.7 0.12 250;
+    --signal-continuity: 0.65 0.16 var(--brand-h, 285);
+    --signal-commitment: 0.72 0.19 34;
+
+    --sped-overdue: 0.65 0.22 25;
+    --sped-due-soon: 0.75 0.15 85;
+    --sped-upcoming: 0.4 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --message-bubble-sent: 0.78 0.18 var(--brand-h, 285);
+    --message-bubble-received: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --notification-critical: 0.65 0.22 25;
+    --notification-important: 0.75 0.15 85;
+    --notification-info: 0.4 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --pdf-frame: 0.22 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --export-btn: 0.72 0.16 var(--brand-h, 285);
+    --intervention-open: 0.78 0.15 85;
+    --intervention-review: 0.72 0.19 34;
+    --intervention-resolved: 0.75 0.22 140;
+    --intervention-follow-up: 0.72 0.19 22;
+    --outcome-positive: 0.75 0.22 140;
+    --outcome-neutral: 0.4 calc(0.01 * var(--neutral-c, 1)) var(--neutral-h, 260);
+    --outcome-negative: 0.65 0.22 25;
+
+    --coral: 0.55 0.16 45;
+    --coral-foreground: 0.98 0.01 45;
+    --coral-strong: 0.55 0.16 45;
+    --coral-dark: 0.45 0.14 45;
+    --coral-mid: 0.65 0.18 45;
+    --coral-light: 0.95 0.02 45;
+    --coral-border: 0.65 0.18 45;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  /* Premium / refined: tighten display headings, tabular figures everywhere. */
+  .font-display {
+    letter-spacing: -0.02em;
+  }
+  h1.font-display,
+  h2.font-display {
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.grade-a {
+  @apply text-[oklch(var(--grade-a))] font-semibold;
+}
+
+.grade-b {
+  @apply text-[oklch(var(--grade-b))];
+}
+
+.grade-c {
+  @apply text-[oklch(var(--grade-c))];
+}
+
+.grade-d {
+  @apply text-[oklch(var(--grade-d))];
+}
+
+.grade-f {
+  @apply text-[oklch(var(--grade-f))] font-semibold;
+}
+
+.trajectory-up {
+  @apply text-[oklch(var(--trajectory-up))];
+}
+
+.trajectory-down {
+  @apply text-[oklch(var(--trajectory-down))];
+}
+
+.badge-overload {
+  @apply bg-[oklch(var(--overload)/0.1)] text-[oklch(var(--overload))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-high-stakes {
+  @apply bg-[oklch(var(--high-stakes)/0.1)] text-[oklch(var(--high-stakes))] px-2 py-0.5 rounded text-xs font-semibold;
+}
+
+.badge-chronic-absence {
+  @apply bg-[oklch(var(--chronic-absence)/0.1)] text-[oklch(var(--chronic-absence))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.severity-1 {
+  @apply text-[oklch(var(--severity-1))];
+}
+
+.severity-2 {
+  @apply text-[oklch(var(--severity-2))];
+}
+
+.severity-3 {
+  @apply text-[oklch(var(--severity-3))];
+}
+
+.severity-4 {
+  @apply text-[oklch(var(--severity-4))];
+}
+
+.severity-5 {
+  @apply text-[oklch(var(--severity-5))];
+}
+
+.incident-open {
+  @apply text-[oklch(var(--incident-open))];
+}
+
+.incident-review {
+  @apply text-[oklch(var(--incident-review))];
+}
+
+.incident-resolved {
+  @apply text-[oklch(var(--incident-resolved))];
+}
+
+.incident-follow-up {
+  @apply text-[oklch(var(--incident-follow-up))];
+}
+
+.commitment-badge {
+  @apply px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.commitment-overdue {
+  @apply bg-[oklch(var(--commitment-overdue)/0.1)] text-[oklch(var(--commitment-overdue))];
+}
+
+.commitment-due-today {
+  @apply bg-[oklch(var(--commitment-due-today)/0.1)] text-[oklch(var(--commitment-due-today))];
+}
+
+.commitment-this-week {
+  @apply bg-[oklch(var(--commitment-this-week)/0.1)] text-[oklch(var(--commitment-this-week))];
+}
+
+.commitment-coming-soon {
+  @apply bg-[oklch(var(--commitment-coming-soon)/0.1)] text-[oklch(var(--commitment-coming-soon))] border border-[oklch(var(--commitment-coming-soon))];
+}
+
+.signal-opportunity {
+  @apply bg-[oklch(var(--signal-opportunity)/0.1)] text-[oklch(var(--signal-opportunity))];
+}
+
+.signal-workload {
+  @apply bg-[oklch(var(--signal-workload)/0.1)] text-[oklch(var(--signal-workload))];
+}
+
+.signal-risk {
+  @apply bg-[oklch(var(--signal-risk)/0.1)] text-[oklch(var(--signal-risk))];
+}
+
+.signal-celebration {
+  @apply bg-[oklch(var(--signal-celebration)/0.1)] text-[oklch(var(--signal-celebration))];
+}
+
+.signal-pattern {
+  @apply bg-[oklch(var(--signal-pattern)/0.1)] text-[oklch(var(--signal-pattern))];
+}
+
+.signal-continuity {
+  @apply bg-[oklch(var(--signal-continuity)/0.1)] text-[oklch(var(--signal-continuity))];
+}
+
+.signal-commitment {
+  @apply bg-[oklch(var(--signal-commitment)/0.1)] text-[oklch(var(--signal-commitment))];
+}
+
+.badge-success {
+  @apply bg-[oklch(var(--signal-opportunity)/0.1)] text-[oklch(var(--signal-opportunity))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-warning {
+  @apply bg-[oklch(var(--signal-workload)/0.1)] text-[oklch(var(--signal-workload))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-danger {
+  @apply bg-[oklch(var(--signal-risk)/0.1)] text-[oklch(var(--signal-risk))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-info {
+  @apply bg-[oklch(var(--signal-celebration)/0.1)] text-[oklch(var(--signal-celebration))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-neutral {
+  @apply bg-[oklch(var(--muted)/0.1)] text-[oklch(var(--muted-foreground))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.table-stripe-light {
+  @apply bg-[oklch(var(--background))];
+}
+
+.table-stripe-dark {
+  @apply bg-[oklch(var(--muted)/0.05)];
+}
+
+.table-row-alternate:nth-child(odd) {
+  @apply bg-[oklch(var(--background))];
+}
+
+.table-row-alternate:nth-child(even) {
+  @apply bg-[oklch(var(--muted)/0.05)];
+}
+
+.skeleton {
+  @apply bg-[oklch(var(--muted)/0.3)] animate-pulse;
+}
+
+.timeline-status {
+  @apply flex gap-3 p-4 border-l-4 rounded-sm transition-smooth;
+}
+
+.sped-overdue {
+  @apply bg-[oklch(var(--sped-overdue)/0.1)] text-[oklch(var(--sped-overdue))];
+}
+
+.sped-due-soon {
+  @apply bg-[oklch(var(--sped-due-soon)/0.1)] text-[oklch(var(--sped-due-soon))];
+}
+
+.sped-upcoming {
+  @apply bg-[oklch(var(--sped-upcoming)/0.1)] text-[oklch(var(--sped-upcoming))] border border-[oklch(var(--sped-upcoming))];
+}
+
+.message-bubble-sent {
+  @apply bg-[oklch(var(--message-bubble-sent)/0.12)] text-[oklch(var(--message-bubble-sent))] rounded-2xl rounded-tr-sm px-4 py-3;
+}
+
+.message-bubble-received {
+  @apply bg-[oklch(var(--message-bubble-received)/0.6)] text-[oklch(var(--foreground))] rounded-2xl rounded-tl-sm px-4 py-3;
+}
+
+.notification-critical {
+  @apply bg-[oklch(var(--notification-critical)/0.1)] text-[oklch(var(--notification-critical))] border-l-4 border-[oklch(var(--notification-critical))];
+}
+
+.notification-important {
+  @apply bg-[oklch(var(--notification-important)/0.1)] text-[oklch(var(--notification-important))] border-l-4 border-[oklch(var(--notification-important))];
+}
+
+.notification-info {
+  @apply bg-[oklch(var(--notification-info)/0.1)] text-[oklch(var(--notification-info))] border-l-4 border-[oklch(var(--notification-info))];
+}
+
+.pdf-preview-frame {
+  @apply bg-[oklch(var(--pdf-frame))] border border-[oklch(var(--border))] rounded-lg p-6 shadow-subtle;
+}
+
+.export-btn-primary {
+  @apply bg-[oklch(var(--export-btn))] text-[oklch(var(--primary-foreground))] rounded-md px-4 py-2 font-semibold shadow-subtle hover:opacity-90 transition-smooth;
+}
+
+.intervention-open {
+  @apply text-[oklch(var(--intervention-open))];
+}
+
+.intervention-review {
+  @apply text-[oklch(var(--intervention-review))];
+}
+
+.intervention-resolved {
+  @apply text-[oklch(var(--intervention-resolved))];
+}
+
+.intervention-follow-up {
+  @apply text-[oklch(var(--intervention-follow-up))];
+}
+
+.outcome-positive {
+  @apply bg-[oklch(var(--outcome-positive)/0.1)] text-[oklch(var(--outcome-positive))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.outcome-neutral {
+  @apply bg-[oklch(var(--outcome-neutral)/0.1)] text-[oklch(var(--outcome-neutral))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.outcome-negative {
+  @apply bg-[oklch(var(--outcome-negative)/0.1)] text-[oklch(var(--outcome-negative))] px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+/* Print: isolate the report card / transcript so "Save as PDF" prints only it. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    padding: 1.5rem;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

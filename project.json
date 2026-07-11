@@ -1,0 +1,19 @@
+{
+  "overview": "EdUnite OS is a K–12 school operating system with a public marketing landing page at the root route and a full role-based dashboard app behind it.",
+  "features": [
+    "Public marketing landing page with scroll-snap sections",
+    "Role-based dashboards for 12 school roles",
+    "Connected student data model with live backend",
+    "Student detail view with tabs",
+    "Class detail view with gradebook, attendance, behaviour, assignments"
+  ],
+  "category": "showcase",
+  "tags": [
+    "education",
+    "school-management",
+    "k12",
+    "dashboard",
+    "landing-page"
+  ],
+  "last_updated": "2026-06-17T13:33:48.156Z"
+}

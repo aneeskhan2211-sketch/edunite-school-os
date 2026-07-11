@@ -1,0 +1,1887 @@
+type WeightedAverageResult = 
+ record {
+   average: float64;
+   count: nat;
+   courseId: CourseId;
+   studentId: StudentId;
+   trajectory: TrajectoryResult;
+ };
+type UrgentStudent = 
+ record {
+   name: text;
+   reason: text;
+   studentId: StudentId;
+   urgency: SignalUrgency;
+ };
+type UpdateResult = 
+ variant {
+   err: text;
+   ok;
+ };
+type UnitId = nat;
+type Unit = 
+ record {
+   courseId: CourseId;
+   id: UnitId;
+   lessons: vec Lesson;
+   name: text;
+   orderIndex: nat;
+ };
+type UnderstandingSignal = 
+ record {
+   commitmentId: opt CommitmentId;
+   createdAt: Timestamp;
+   id: SignalId;
+   reason: text;
+   roleTarget: Role;
+   signalType: SignalType;
+   studentId: opt StudentId;
+   urgency: SignalUrgency;
+ };
+type TranscriptTerm__1 = 
+ record {
+   courses: vec TranscriptCourse__1;
+   term: text;
+   termCredits: float64;
+   termGpa: float64;
+ };
+type TranscriptTerm = 
+ record {
+   courses: vec TranscriptCourse;
+   gpa: float64;
+   termId: text;
+   year: nat;
+ };
+type TranscriptCourse__1 = 
+ record {
+   courseId: CourseId;
+   courseName: text;
+   credits: float64;
+   grade: float64;
+   letterGrade: text;
+   term: text;
+ };
+type TranscriptCourse = 
+ record {
+   courseId: CourseId;
+   courseName: text;
+   credits: float64;
+   grade: float64;
+ };
+type TrajectoryResult__1 = 
+ record {
+   courseId: text;
+   direction: variant {
+                Down;
+                Flat;
+                Up;
+              };
+   lastFiveScores: vec float64;
+   passStatus: variant {
+                 AtRisk;
+                 Failing;
+                 Passing;
+               };
+   priorTermDelta: opt float64;
+   rolling3Avg: float64;
+   studentId: text;
+ };
+type TrajectoryResult = 
+ record {
+   courseId: CourseId;
+   direction: variant {
+                Down;
+                Flat;
+                Up;
+              };
+   lastFiveScores: vec float64;
+   passStatus: variant {
+                 AtRisk;
+                 Failing;
+                 Passing;
+               };
+   priorTermDelta: opt float64;
+   rolling3Avg: float64;
+   studentId: StudentId;
+ };
+type Timestamp = int;
+type ThreadId = nat;
+type Thread = 
+ record {
+   id: ThreadId;
+   isDemoData: bool;
+   lastMessageAt: Timestamp;
+   participants: vec StaffId;
+   subject: text;
+ };
+type SubstituteEndOfDay = 
+ record {
+   absentCount: nat;
+   attendanceTaken: bool;
+   incidentCount: nat;
+   lessonCompletionNotes: text;
+   presentCount: nat;
+ };
+type SubstituteClass = 
+ record {
+   classId: text;
+   className: text;
+   lessonPlan: text;
+   mustKnows: vec text;
+   period: text;
+   room: text;
+   studentCount: nat;
+ };
+type SubmissionStatus = 
+ variant {
+   graded;
+   notSubmitted;
+   submitted;
+ };
+type SubmissionId = nat;
+type Submission = 
+ record {
+   assignmentId: AssignmentId;
+   earnedPoints: opt float64;
+   id: SubmissionId;
+   isDemoData: bool;
+   status: SubmissionStatus;
+   studentId: StudentId;
+   submissionText: text;
+   submittedAt: Timestamp;
+ };
+type Student__1 = 
+ record {
+   assignedCounsellorId: opt text;
+   assignedSpedId: opt text;
+   code: text;
+   contacts: vec StudentContact;
+   demographics: Demographics;
+   dob: opt text;
+   enrolmentDate: int;
+   enrolmentStatus: variant {
+                      Active;
+                      Inactive;
+                      Transferred;
+                    };
+   grade: nat;
+   homeroom: opt text;
+   id: StudentId;
+   isDemoData: bool;
+   name: text;
+   photo: opt text;
+   preferredName: opt text;
+   specialPop: SpecialPopFlags__1;
+ };
+type StudentWeightedResult = 
+ record {
+   letterGrade: text;
+   overallPercent: float64;
+   studentId: StudentId;
+ };
+type StudentTranscript = 
+ record {
+   cumulativeGpa: float64;
+   studentId: StudentId;
+   studentName: text;
+   terms: vec TranscriptTerm__1;
+   totalCredits: float64;
+ };
+type StudentSummary = 
+ record {
+   courseIds: vec CourseId;
+   grade: nat;
+   name: text;
+   studentId: StudentId;
+ };
+type StudentRosterRow = 
+ record {
+   attendanceRate: float64;
+   gpa: opt float64;
+   student: Student;
+ };
+type StudentId = nat;
+type StudentGradebookClassSummary = 
+ record {
+   classId: CourseId;
+   className: text;
+   letterGrade: text;
+   weightedPercentage: float64;
+ };
+type StudentGradeView = 
+ record {
+   assignmentName: text;
+   courseId: CourseId;
+   courseName: text;
+   letterGrade: text;
+   score: float64;
+   term: text;
+   weight: float64;
+ };
+type StudentGradeSummary = 
+ record {
+   letterGrade: text;
+   studentId: StudentId;
+   studentName: text;
+   weightedAvg: float64;
+ };
+type StudentFullRecord = 
+ record {
+   attendanceRate: float64;
+   auditTrail: vec AuditEntry__1;
+   behaviourPatternFlag: bool;
+   commitments: vec Commitment;
+   currentGPA: opt float64;
+   signals: vec UnderstandingSignal;
+   student: Student__1;
+   trajectory: vec TrajectoryResult__1;
+ };
+type StudentContact = 
+ record {
+   email: opt text;
+   emergencyPriority: nat;
+   homeLanguage: opt text;
+   name: text;
+   phone: opt text;
+   relationship: text;
+ };
+type Student = 
+ record {
+   counsellorId: opt StaffId;
+   dob: text;
+   enrollmentStatus: EnrollmentStatus;
+   grade: nat;
+   guardians: vec Guardian;
+   homeroom: text;
+   id: StudentId;
+   isDemoData: bool;
+   name: text;
+   photo: opt text;
+   preferredName: opt text;
+   specialPopFlags: SpecialPopFlags;
+   spedCoordinatorId: opt StaffId;
+ };
+type StaffId = nat;
+type Staff = 
+ record {
+   assignedClasses: vec CourseId;
+   departments: vec text;
+   email: text;
+   id: StaffId;
+   isDemoData: bool;
+   name: text;
+   role: Role;
+ };
+type SpecialPopFlags__1 = 
+ record {
+   iepRenewalDate: opt int;
+   iepStartDate: opt int;
+   isELL: bool;
+   isFosterYouth: bool;
+   isGifted: bool;
+   isIEP: bool;
+   isMcKinneyVento: bool;
+   medicalAlerts: vec text;
+   widaLevel: opt nat;
+ };
+type SpecialPopFlags = 
+ record {
+   ell: bool;
+   fosterYouth: bool;
+   gifted: bool;
+   mcKinneyVento: bool;
+   medicalAlert: opt text;
+   sped: bool;
+   wida: opt text;
+ };
+type SignalUrgency = 
+ variant {
+   critical;
+   important;
+   info;
+ };
+type SignalType = 
+ variant {
+   celebration;
+   commitment;
+   continuity;
+   opportunity;
+   pattern;
+   risk;
+   workload;
+ };
+type SignalId = nat;
+type SignalCard = 
+ record {
+   createdAt: Timestamp;
+   id: SignalId;
+   reason: text;
+   signalType: SignalType;
+   studentId: opt StudentId;
+   studentName: opt text;
+   urgency: SignalUrgency;
+ };
+type ServiceHoursEntry = 
+ record {
+   activityId: opt ActivityId;
+   approvedBy: opt text;
+   description: text;
+   hours: float64;
+   id: ServiceEntryId;
+   loggedAt: int;
+   studentId: text;
+ };
+type ServiceEntryId = nat;
+type ScoreId = text;
+type Score = 
+ record {
+   assignmentId: AssignmentId;
+   id: ScoreId;
+   pointsEarned: opt nat;
+   studentId: StudentId;
+ };
+type RoleContext = 
+ record {
+   role: Role;
+   userId: StaffId;
+ };
+type Role = 
+ variant {
+   coTeacher;
+   counsellor;
+   curriculumCoordinator;
+   departmentHead;
+   districtAdmin;
+   parent;
+   "principal";
+   schoolAdmin;
+   spedCoordinator;
+   student;
+   substitute;
+   teacher;
+ };
+type ReportCardData = 
+ record {
+   attendanceSummary: AttendancePattern__1;
+   courseGrades: vec record {
+                       Course;
+                       float64;
+                     };
+   gpa: float64;
+   student: Student;
+   term: text;
+ };
+type ReportCard = 
+ record {
+   attendanceSummary: AttendanceSummary;
+   behaviourSummary: BehaviourSummary;
+   courseSummaries: vec CourseSummary;
+   studentId: StudentId;
+   termId: text;
+ };
+type PermissionSlipId = nat;
+type PermissionSlip = 
+ record {
+   id: PermissionSlipId;
+   signedAt: opt int;
+   signedBy: opt text;
+   status: variant {
+             costBarrier;
+             declined;
+             signed;
+             unsigned;
+           };
+   studentId: text;
+   tripId: FieldTripId;
+ };
+type PaginatedStudents = 
+ record {
+   students: vec Student;
+   total: nat;
+ };
+type OvernightDelta = 
+ record {
+   change: text;
+   current: float64;
+   metric: text;
+   previous: float64;
+ };
+type OverloadFlag = 
+ record {
+   affectedStudentIds: vec text;
+   assignmentIds: vec text;
+   courseId: text;
+   reason: text;
+   week: text;
+ };
+type NotificationTier = 
+ variant {
+   critical;
+   important;
+   informational;
+ };
+type NotificationId = nat;
+type NotificationEventType = 
+ variant {
+   announcementPosted;
+   assignmentSubmitted;
+   attendanceFlagged;
+   behaviourFollowUp;
+   commitmentDue;
+   conferenceBooked;
+   gradePosted;
+   iepDue;
+   incidentRouted;
+   messageReceived;
+   other;
+   riskSignal;
+ };
+type Notification = 
+ record {
+   body: text;
+   createdAt: Timestamp;
+   eventType: NotificationEventType;
+   id: NotificationId;
+   isDemoData: bool;
+   isRead: bool;
+   recipientId: StaffId;
+   relatedId: opt nat;
+   relatedType: opt text;
+   tier: NotificationTier;
+   title: text;
+ };
+type MorningPicture = 
+ record {
+   generatedAt: Timestamp;
+   headline: text;
+   needsDecision: vec DecisionItem;
+   overnightDeltas: vec OvernightDelta;
+   urgentStudents: vec UrgentStudent;
+   whatsWorking: vec text;
+ };
+type MessageId = nat;
+type Message = 
+ record {
+   body: text;
+   fromId: StaffId;
+   id: MessageId;
+   isDemoData: bool;
+   isRead: bool;
+   sentAt: Timestamp;
+   subject: text;
+   threadId: ThreadId;
+   toId: StaffId;
+ };
+type MeetingId = nat;
+type LessonId = nat;
+type Lesson = 
+ record {
+   description: text;
+   id: LessonId;
+   name: text;
+   orderIndex: nat;
+   unitId: UnitId;
+ };
+type InterventionType = 
+ variant {
+   academic;
+   attendance;
+   behavioural;
+   custom;
+   family;
+   socialEmotional;
+ };
+type InterventionStatus = 
+ variant {
+   active;
+   closed;
+   completed;
+ };
+type InterventionOutcome = 
+ record {
+   notes: text;
+   outcome: text;
+   recordedAt: Timestamp;
+ };
+type InterventionId = nat;
+type Intervention = 
+ record {
+   commitmentId: opt CommitmentId;
+   counsellorId: StaffId;
+   createdAt: Timestamp;
+   description: text;
+   finalOutcome: opt text;
+   followUpDate: Timestamp;
+   id: InterventionId;
+   interventionType: InterventionType;
+   isDemoData: bool;
+   outcomes: vec InterventionOutcome;
+   planDetails: text;
+   status: InterventionStatus;
+   studentId: StudentId;
+ };
+type IncidentTrend = 
+ variant {
+   Decreasing;
+   Flat;
+   Increasing;
+ };
+type IncidentStatus = 
+ variant {
+   closed;
+   followUp;
+   logged;
+   reviewing;
+   routed;
+ };
+type IncidentSeverity = 
+ variant {
+   critical;
+   high;
+   low;
+   medium;
+ };
+type IncidentPattern = 
+ record {
+   count90day: nat;
+   escalationTimelineDays: opt nat;
+   repeatPatternFlag: bool;
+   severityBreakdown: vec record {
+                            nat;
+                            nat;
+                          };
+   studentId: StudentId;
+   trend: IncidentTrend;
+ };
+type IncidentId = nat;
+type IncidentEvent = 
+ record {
+   note: text;
+   occurredAt: Timestamp;
+   staffId: StaffId;
+   status: IncidentStatus;
+ };
+type Incident = 
+ record {
+   commitmentId: opt CommitmentId;
+   createdAt: Timestamp;
+   description: text;
+   id: IncidentId;
+   isDemoData: bool;
+   reportedBy: StaffId;
+   routedTo: opt StaffId;
+   severity: IncidentSeverity;
+   status: IncidentStatus;
+   studentId: StudentId;
+   timeline: vec IncidentEvent;
+ };
+type IEPStudent = 
+ record {
+   contextualNextStep: text;
+   daysToRenewal: int;
+   grade: nat;
+   name: text;
+   renewalDate: Timestamp;
+   spedFlags: SpecialPopFlags;
+   studentId: StudentId;
+   urgencyTier: variant {
+                  danger;
+                  future;
+                  info;
+                  overdue;
+                  warning;
+                };
+ };
+type IEPService = 
+ record {
+   endDate: opt Timestamp;
+   minutesPerWeek: nat;
+   provider: text;
+   serviceType: text;
+   startDate: Timestamp;
+ };
+type IEPReviewEntry = 
+ record {
+   notes: text;
+   reviewedAt: Timestamp;
+   reviewedBy: StaffId;
+ };
+type IEPRecord = 
+ record {
+   accommodations: vec IEPAccommodation;
+   goals: vec IEPGoal;
+   isDemoData: bool;
+   lastUpdatedAt: Timestamp;
+   lastUpdatedBy: StaffId;
+   renewalDate: Timestamp;
+   reviewHistory: vec IEPReviewEntry;
+   services: vec IEPService;
+   studentId: StudentId;
+ };
+type IEPNoteType = 
+ variant {
+   accommodation;
+   general;
+   goal;
+   meeting;
+   review;
+   "service";
+ };
+type IEPNoteId = nat;
+type IEPNote = 
+ record {
+   authorId: StaffId;
+   body: text;
+   createdAt: Timestamp;
+   id: IEPNoteId;
+   isDemoData: bool;
+   noteType: IEPNoteType;
+   studentId: StudentId;
+ };
+type IEPGoal = 
+ record {
+   description: text;
+   domain: text;
+   id: nat;
+   progress: text;
+   targetDate: opt Timestamp;
+ };
+type IEPDetail = 
+ record {
+   notes: vec IEPNote;
+   "record": IEPRecord;
+ };
+type IEPAccommodation = 
+ record {
+   category: text;
+   description: text;
+ };
+type HandoffLogEntry = 
+ record {
+   action: text;
+   gradeId: text;
+   newValue: text;
+   oldValue: opt text;
+   studentName: text;
+   teacherId: text;
+   teacherName: text;
+   timestamp: int;
+ };
+type Guardian = 
+ record {
+   email: opt text;
+   homeLanguage: text;
+   isEmergency: bool;
+   name: text;
+   phone: opt text;
+   relationship: text;
+ };
+type GradeId = nat;
+type GradeCategory = 
+ record {
+   classId: CourseId;
+   id: CategoryId;
+   name: text;
+   weight: nat;
+ };
+type Grade = 
+ record {
+   assignmentId: AssignmentId;
+   auditLog: vec AuditEntry;
+   courseId: CourseId;
+   gradedAt: Timestamp;
+   gradedBy: StaffId;
+   id: GradeId;
+   isDemoData: bool;
+   isHighStakes: bool;
+   studentId: StudentId;
+   term: text;
+   value: float64;
+   weight: float64;
+ };
+type FieldTripId = nat;
+type FieldTrip = 
+ record {
+   activityId: opt ActivityId;
+   approvalStatus: variant {
+                     approved;
+                     cancelled;
+                     pending;
+                   };
+   cost: opt float64;
+   date: int;
+   destination: text;
+   id: FieldTripId;
+   name: text;
+   permissionSlipRequired: bool;
+ };
+type EnrollmentStatus = 
+ variant {
+   active;
+   graduated;
+   transferred;
+   withdrawn;
+ };
+type Enrollment = 
+ record {
+   courseId: CourseId;
+   isDemoData: bool;
+   studentId: StudentId;
+   term: text;
+ };
+type DistrictHealthSummary = 
+ record {
+   attendanceRate: float64;
+   averageGPA: float64;
+   enrollmentCount: nat;
+   incidentCount: nat;
+   schoolName: text;
+   staffCount: nat;
+ };
+type Demographics = 
+ record {
+   districtCode: opt text;
+   ethnicity: opt text;
+   frl: bool;
+   race: opt text;
+ };
+type DecisionItem = 
+ record {
+   description: text;
+   title: text;
+   urgency: SignalUrgency;
+ };
+type CurriculumCourseRow = 
+ record {
+   assignmentCount: nat;
+   courseId: text;
+   courseName: text;
+   lessonCount: nat;
+   unitCount: nat;
+ };
+type CourseSummary = 
+ record {
+   courseId: CourseId;
+   courseName: text;
+   finalGrade: float64;
+   letterGrade: text;
+   teacherComment: text;
+ };
+type CourseId = nat;
+type Course = 
+ record {
+   coTeacherId: opt StaffId;
+   code: text;
+   department: text;
+   grade: nat;
+   id: CourseId;
+   isDemoData: bool;
+   name: text;
+   teacherId: StaffId;
+   units: vec Unit;
+ };
+type ConferenceSlotId = nat;
+type ConferenceSlot = 
+ record {
+   bookedBy: opt text;
+   dateTime: int;
+   durationMinutes: nat;
+   id: ConferenceSlotId;
+   isDemoData: bool;
+   notes: opt text;
+   parentId: text;
+   status: variant {
+             available;
+             booked;
+             cancelled;
+           };
+   studentId: text;
+   teacherId: text;
+ };
+type ConferenceBookingId = nat;
+type ConferenceBooking = 
+ record {
+   bookedAt: int;
+   id: ConferenceBookingId;
+   isDemoData: bool;
+   notificationSent: bool;
+   parentId: text;
+   slotId: ConferenceSlotId;
+   status: variant {
+             cancelled;
+             confirmed;
+             rescheduled;
+           };
+   studentId: text;
+   teacherId: text;
+ };
+type ComplianceStatus = 
+ variant {
+   complete;
+   overdue;
+   pending;
+ };
+type ComplianceItemType = 
+ variant {
+   annualReview;
+   iepMeeting;
+   progressReport;
+   triennial;
+ };
+type ComplianceItemId = nat;
+type ComplianceItem = 
+ record {
+   completedAt: opt Timestamp;
+   dueDate: Timestamp;
+   id: ComplianceItemId;
+   isDemoData: bool;
+   itemType: ComplianceItemType;
+   notes: opt text;
+   ownerId: StaffId;
+   status: ComplianceStatus;
+   studentId: StudentId;
+ };
+type CommitmentType = 
+ variant {
+   behaviourFollowUp;
+   conferenceBooking;
+   counsellorFollowUp;
+   custom;
+   iepRenewal;
+   parentCall;
+   permissionSlip;
+   workHome;
+ };
+type CommitmentTransitionEvent = 
+ record {
+   actorId: StaffId;
+   fromStatus: CommitmentStatus;
+   note: text;
+   timestamp: Timestamp;
+   toStatus: CommitmentStatus;
+ };
+type CommitmentSurfacing = 
+ record {
+   comingSoon: vec Commitment;
+   dueToday: vec Commitment;
+   overdue: vec Commitment;
+   thisWeek: vec Commitment;
+ };
+type CommitmentStatus = 
+ variant {
+   cancelled;
+   completed;
+   inProgress;
+   open;
+   overdue;
+ };
+type CommitmentId = nat;
+type Commitment = 
+ record {
+   commitmentType: CommitmentType;
+   completedAt: opt Timestamp;
+   createdAt: Timestamp;
+   description: text;
+   dueDate: Timestamp;
+   id: CommitmentId;
+   isDemoData: bool;
+   notes: text;
+   ownerId: StaffId;
+   status: CommitmentStatus;
+   studentId: StudentId;
+   transitionLog: vec CommitmentTransitionEvent;
+ };
+type CoTeacherClassRow = 
+ record {
+   classId: text;
+   className: text;
+   coTeacher: text;
+   leadTeacher: text;
+   studentCount: nat;
+ };
+type ClassReport = 
+ record {
+   classAverage: float64;
+   courseId: CourseId;
+   courseName: text;
+   roster: vec StudentGradeSummary;
+   strugglingStudents: vec StudentGradeSummary;
+   teacherName: text;
+   term: text;
+   topStudents: vec StudentGradeSummary;
+   totalStudents: nat;
+ };
+type ClassMeeting = 
+ record {
+   courseId: CourseId;
+   dayOfWeek: nat;
+   id: MeetingId;
+   isDemoData: bool;
+   period: nat;
+   room: text;
+   teacherId: StaffId;
+   term: text;
+ };
+type ClassGradebookEntry = 
+ record {
+   average: float64;
+   grades:
+    vec
+     record {
+       assignmentId: AssignmentId;
+       assignmentName: text;
+       maxScore: float64;
+       score: opt float64;
+       weight: float64;
+     };
+   studentId: StudentId;
+   studentName: text;
+ };
+type ChannelMsgId = nat;
+type ChannelMessage = 
+ record {
+   authorId: text;
+   channelId: ChannelId;
+   content: text;
+   editedAt: opt int;
+   id: ChannelMsgId;
+   isPinned: bool;
+   mentionedUsers: vec text;
+   parentId: opt ChannelMsgId;
+   sentAt: int;
+ };
+type ChannelId = nat;
+type Channel = 
+ record {
+   createdAt: int;
+   createdBy: text;
+   description: opt text;
+   id: ChannelId;
+   isArchived: bool;
+   isRoleScoped: bool;
+   name: text;
+   scopedRoles: vec text;
+ };
+type CategoryId = text;
+type CaseloadSummary = 
+ record {
+   dueThisWeek: nat;
+   openCommitments: nat;
+   overdueRenewals: nat;
+   studentsWithAttendanceConcerns: nat;
+   studentsWithGradeConcerns: nat;
+   totalStudents: nat;
+ };
+type CaseloadStudent = 
+ record {
+   attendancePct: float64;
+   grade: nat;
+   gradeTrajectory: text;
+   hasActiveIntervention: bool;
+   name: text;
+   openCommitments: nat;
+   recentIncidents: nat;
+   specialPopFlags: record {
+                      ell: bool;
+                      medicalAlert: opt text;
+                      sped: bool;
+                    };
+   studentId: StudentId;
+ };
+type CaseloadEntry = 
+ record {
+   interventions: vec Intervention;
+   student: CaseloadStudent;
+   upcomingCommitments: vec Commitment;
+ };
+type BoardItemId = nat;
+type BoardItem = 
+ record {
+   channelId: opt ChannelId;
+   content: text;
+   createdAt: int;
+   createdBy: text;
+   id: BoardItemId;
+   isPinned: bool;
+   pinnedAt: opt int;
+   pinnedBy: opt text;
+   title: text;
+ };
+type BehaviourSummary = 
+ record {
+   followUpsComplete: nat;
+   incidents: nat;
+ };
+type AuditId = nat;
+type AuditEntry__1 = 
+ record {
+   action: text;
+   actorId: text;
+   actorRole: Role;
+   delta: opt text;
+   entityId: text;
+   entityType: text;
+   id: AuditId;
+   timestamp: int;
+ };
+type AuditEntry = 
+ record {
+   action: text;
+   entityId: nat;
+   entityType: text;
+   id: AuditId;
+   newValue: opt text;
+   performedAt: Timestamp;
+   performedBy: StaffId;
+   previousValue: opt text;
+ };
+type AttendanceTrend = 
+ variant {
+   Declining;
+   Flat;
+   Improving;
+ };
+type AttendanceSummary = 
+ record {
+   absent: nat;
+   present: nat;
+   rate: float64;
+   tardy: nat;
+ };
+type AttendanceStatus__1 = 
+ variant {
+   Absent;
+   Excused;
+   Present;
+   Tardy;
+ };
+type AttendanceStatus = 
+ variant {
+   absent;
+   excused;
+   present;
+   tardy;
+ };
+type AttendanceRecord__1 = 
+ record {
+   classId: opt text;
+   date: text;
+   enteredAt: int;
+   enteredBy: text;
+   id: AttendanceId;
+   isDemoData: bool;
+   notes: opt text;
+   status: AttendanceStatus__1;
+   studentId: StudentId;
+ };
+type AttendanceRecord = 
+ record {
+   courseId: CourseId;
+   date: text;
+   id: AttendanceId;
+   isDemoData: bool;
+   markedBy: StaffId;
+   period: opt text;
+   status: AttendanceStatus;
+   studentId: StudentId;
+ };
+type AttendancePattern__1 = 
+ record {
+   absentDays: nat;
+   belowThreshold: bool;
+   chronicAbsence: bool;
+   excusedDays: nat;
+   percentage: float64;
+   presentDays: nat;
+   studentId: StudentId;
+   tardyDays: nat;
+   totalDays: nat;
+   trend: text;
+ };
+type AttendancePattern = 
+ record {
+   attendanceRate: float64;
+   chronicAbsenceFlag: bool;
+   lastFiveEntries: vec AttendanceRecord__1;
+   studentId: StudentId;
+   thresholdFlag: bool;
+   trend: AttendanceTrend;
+ };
+type AttendanceId = nat;
+type AssignmentWithStatus = 
+ record {
+   assignment: Assignment;
+   earnedPoints: opt float64;
+   submissionStatus: SubmissionStatus;
+ };
+type AssignmentV2 = 
+ record {
+   categoryId: CategoryId;
+   classId: CourseId;
+   dueDate: opt text;
+   id: AssignmentId;
+   name: text;
+   pointsPossible: nat;
+ };
+type AssignmentType = 
+ variant {
+   essay;
+   homework;
+   project;
+   quiz;
+   test;
+ };
+type AssignmentId = nat;
+type Assignment = 
+ record {
+   assignmentType: AssignmentType;
+   courseId: CourseId;
+   description: opt text;
+   dueDate: Timestamp;
+   id: AssignmentId;
+   isDemoData: bool;
+   isHighStakes: bool;
+   linkedLessonId: opt LessonId;
+   name: text;
+   points: float64;
+   term: text;
+   weight: float64;
+ };
+type AppointmentType = 
+ variant {
+   checkIn;
+   custom;
+   groupSession;
+   intervention;
+   parentConference;
+   referralFollowUp;
+ };
+type AppointmentStatus = 
+ variant {
+   cancelled;
+   completed;
+   scheduled;
+ };
+type AppointmentId = nat;
+type Appointment = 
+ record {
+   appointmentType: AppointmentType;
+   counsellorId: StaffId;
+   createdAt: Timestamp;
+   dateTime: Timestamp;
+   id: AppointmentId;
+   isDemoData: bool;
+   notes: text;
+   status: AppointmentStatus;
+   studentId: StudentId;
+ };
+type AnnouncementPriority = 
+ variant {
+   important;
+   info;
+   urgent;
+ };
+type AnnouncementId = nat;
+type Announcement = 
+ record {
+   authorId: StaffId;
+   body: text;
+   createdAt: Timestamp;
+   id: AnnouncementId;
+   isDemoData: bool;
+   priority: AnnouncementPriority;
+   targetRoles: vec Role;
+   title: text;
+ };
+type ActivityRoster = 
+ record {
+   activityId: ActivityId;
+   joinedAt: int;
+   role: variant {
+           captain;
+           leader;
+           member;
+         };
+   status: variant {
+             active;
+             inactive;
+             waitlisted;
+           };
+   studentId: text;
+ };
+type ActivityId = nat;
+type Activity = 
+ record {
+   actType: variant {
+              club;
+              fineArts;
+              serviceHours;
+              sport;
+            };
+   coachAdvisorId: opt text;
+   eligibilityAttendanceMin: float64;
+   eligibilityGpaMin: float64;
+   id: ActivityId;
+   maxRoster: opt nat;
+   name: text;
+   season: opt text;
+ };
+type Account = 
+ record {
+   displayName: text;
+   isOwner: bool;
+   principalText: text;
+   role: Role;
+   userId: nat;
+ };
+service : {
+  __accounts: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          Account;
+        }) query;
+  __activities: (ko: opt ActivityId, count: opt nat) ->
+   (vec record {
+          ActivityId;
+          Activity;
+        }) query;
+  __activityRosters: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          ActivityRoster;
+        }) query;
+  __announcements: (ko: opt AnnouncementId, count: opt nat) ->
+   (vec record {
+          AnnouncementId;
+          Announcement;
+        }) query;
+  __appointments: (ko: opt AppointmentId, count: opt nat) ->
+   (vec record {
+          AppointmentId;
+          Appointment;
+        }) query;
+  __assignments: (ko: opt AssignmentId, count: opt nat) ->
+   (vec record {
+          AssignmentId;
+          Assignment;
+        }) query;
+  __assignmentsV2: (ko: opt AssignmentId, count: opt nat) ->
+   (vec
+     record {
+       AssignmentId;
+       record {
+         categoryId: CategoryId;
+         classId: CourseId;
+         dueDate: opt text;
+         id: AssignmentId;
+         name: text;
+         pointsPossible: nat;
+       };
+     }) query;
+  __attendance: (ko: opt AttendanceId, count: opt nat) ->
+   (vec record {
+          AttendanceId;
+          AttendanceRecord;
+        }) query;
+  __boardItems: (ko: opt BoardItemId, count: opt nat) ->
+   (vec record {
+          BoardItemId;
+          BoardItem;
+        }) query;
+  __channelMsgs: (ko: opt ChannelMsgId, count: opt nat) ->
+   (vec record {
+          ChannelMsgId;
+          ChannelMessage;
+        }) query;
+  __channels: (ko: opt ChannelId, count: opt nat) ->
+   (vec record {
+          ChannelId;
+          Channel;
+        }) query;
+  __classMeetings: (ko: opt MeetingId, count: opt nat) ->
+   (vec record {
+          MeetingId;
+          ClassMeeting;
+        }) query;
+  __commitments: (ko: opt CommitmentId, count: opt nat) ->
+   (vec record {
+          CommitmentId;
+          Commitment;
+        }) query;
+  __complianceItems: (ko: opt ComplianceItemId, count: opt nat) ->
+   (vec record {
+          ComplianceItemId;
+          ComplianceItem;
+        }) query;
+  __conferenceBookings: (ko: opt ConferenceBookingId, count: opt nat) ->
+   (vec record {
+          ConferenceBookingId;
+          ConferenceBooking;
+        }) query;
+  __conferenceSlots: (ko: opt ConferenceSlotId, count: opt nat) ->
+   (vec record {
+          ConferenceSlotId;
+          ConferenceSlot;
+        }) query;
+  __courses: (ko: opt CourseId, count: opt nat) ->
+   (vec record {
+          CourseId;
+          Course;
+        }) query;
+  __devState: () -> (reserved) query;
+  __enrollments: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          Enrollment;
+        }) query;
+  __fieldTrips: (ko: opt FieldTripId, count: opt nat) ->
+   (vec record {
+          FieldTripId;
+          FieldTrip;
+        }) query;
+  __gradeCategories: (ko: opt CategoryId, count: opt nat) ->
+   (vec
+     record {
+       CategoryId;
+       record {
+         classId: CourseId;
+         id: CategoryId;
+         name: text;
+         weight: nat;
+       };
+     }) query;
+  __grades: (ko: opt GradeId, count: opt nat) ->
+   (vec record {
+          GradeId;
+          Grade;
+        }) query;
+  __iepNotes: (ko: opt IEPNoteId, count: opt nat) ->
+   (vec record {
+          IEPNoteId;
+          IEPNote;
+        }) query;
+  __iepRecords: (ko: opt StudentId, count: opt nat) ->
+   (vec record {
+          StudentId;
+          IEPRecord;
+        }) query;
+  __incidents: (ko: opt IncidentId, count: opt nat) ->
+   (vec record {
+          IncidentId;
+          Incident;
+        }) query;
+  __interventions: (ko: opt InterventionId, count: opt nat) ->
+   (vec record {
+          InterventionId;
+          Intervention;
+        }) query;
+  __messages: (ko: opt MessageId, count: opt nat) ->
+   (vec record {
+          MessageId;
+          Message;
+        }) query;
+  __notifications: (ko: opt NotificationId, count: opt nat) ->
+   (vec record {
+          NotificationId;
+          Notification;
+        }) query;
+  __permissionSlips: (ko: opt PermissionSlipId, count: opt nat) ->
+   (vec record {
+          PermissionSlipId;
+          PermissionSlip;
+        }) query;
+  __readReceipts: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          bool;
+        }) query;
+  __scores: (ko: opt ScoreId, count: opt nat) ->
+   (vec
+     record {
+       ScoreId;
+       record {
+         assignmentId: AssignmentId;
+         id: ScoreId;
+         pointsEarned: opt nat;
+         studentId: StudentId;
+       };
+     }) query;
+  __serviceHours: (ko: opt ServiceEntryId, count: opt nat) ->
+   (vec record {
+          ServiceEntryId;
+          ServiceHoursEntry;
+        }) query;
+  __signals: (ko: opt SignalId, count: opt nat) ->
+   (vec record {
+          SignalId;
+          UnderstandingSignal;
+        }) query;
+  __staff: (ko: opt StaffId, count: opt nat) ->
+   (vec record {
+          StaffId;
+          Staff;
+        }) query;
+  __state: () -> (reserved) query;
+  __studentAudits: (ko: opt AuditId, count: opt nat) ->
+   (vec record {
+          AuditId;
+          AuditEntry__1;
+        }) query;
+  __students: (ko: opt StudentId, count: opt nat) ->
+   (vec record {
+          StudentId;
+          Student;
+        }) query;
+  __submissions: (ko: opt SubmissionId, count: opt nat) ->
+   (vec record {
+          SubmissionId;
+          Submission;
+        }) query;
+  __threads: (ko: opt ThreadId, count: opt nat) ->
+   (vec record {
+          ThreadId;
+          Thread;
+        }) query;
+  addFollowUpToIncident: (incidentId: IncidentId, dueDate: int, note: 
+   text, ctx: RoleContext) -> (variant {
+                                 err: text;
+                                 ok: Commitment;
+                               });
+  addIEPNote: (studentId: StudentId, body: text, noteType: IEPNoteType,
+   authorId: StaffId) -> (UpdateResult);
+  batchRecordAttendance: (records: vec AttendanceRecord) ->
+   (variant {
+      err: text;
+      ok: nat;
+    });
+  bookConference: (slotId: ConferenceSlotId, parentId: text, studentId:
+   text) -> (variant {
+               err: text;
+               ok: ConferenceBooking;
+             });
+  cancelAppointment: (appointmentId: AppointmentId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  cancelBooking: (bookingId: ConferenceBookingId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  checkEligibility: (studentId: text, activityId: ActivityId) ->
+   (variant {
+      err: text;
+      ok: bool;
+    });
+  closeIntervention: (interventionId: InterventionId, finalOutcome: text) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  computeClassWeightedAverages: (classId: CourseId) ->
+   (vec StudentWeightedResult) query;
+  computeOpportunitySignals: (ctx: RoleContext) ->
+   (vec UnderstandingSignal) query;
+  computeRiskSignal: (studentId: StudentId) ->
+   (opt UnderstandingSignal) query;
+  createAnnouncement: (title: text, body: text, targetRoles: vec Role,
+   staffOnly: bool, authorId: StaffId) ->
+   (variant {
+      err: text;
+      ok: AnnouncementId;
+    });
+  createAppointment: (studentId: StudentId, dateTime: Timestamp, atype:
+   AppointmentType, notes: text) -> (variant {
+                                       err: text;
+                                       ok: Appointment;
+                                     });
+  createAppointmentForCounsellor: (counsellorId: StaffId, studentId:
+   StudentId, dateTime: Timestamp, atype: AppointmentType, notes: text) ->
+   (variant {
+      err: text;
+      ok: Appointment;
+    });
+  createAssignment: (assignment: Assignment, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok: Assignment;
+    });
+  createBoardItem: (title: text, content: text, createdBy: text, channelId:
+   opt ChannelId) -> (variant {
+                        err: text;
+                        ok: BoardItem;
+                      });
+  createChannel: (name: text, description: opt text, createdBy: text,
+   scopedRoles: vec text) -> (variant {
+                                err: text;
+                                ok: Channel;
+                              });
+  createCommitment: (commitment: Commitment) ->
+   (variant {
+      err: text;
+      ok: Commitment;
+    });
+  createFollowUpCommitment: (commitmentType: CommitmentType, ownerId:
+   StaffId, studentId: StudentId, dueDate: Timestamp, description: text) ->
+   (variant {
+      err: text;
+      ok: Commitment;
+    });
+  createGradeCategory: (classId: CourseId, name: text, weight: nat) ->
+   (GradeCategory);
+  createGradebookAssignment: (classId: CourseId, categoryId: CategoryId,
+   name: text, pointsPossible: nat, dueDate: opt text) -> (AssignmentV2);
+  createIntervention: (studentId: StudentId, itype: InterventionType,
+   description: text, planDetails: text, followUpDate: Timestamp) ->
+   (variant {
+      err: text;
+      ok: Intervention;
+    });
+  createInterventionForCounsellor: (counsellorId: StaffId, studentId:
+   StudentId, itype: InterventionType, description: text, planDetails: 
+   text, followUpDate: Timestamp) -> (variant {
+                                        err: text;
+                                        ok: Intervention;
+                                      });
+  createSignal: (signal: UnderstandingSignal) ->
+   (variant {
+      err: text;
+      ok: UnderstandingSignal;
+    });
+  createStudent: (student: Student) -> (variant {
+                                          err: text;
+                                          ok: Student;
+                                        });
+  createThread: (participantIds: vec StaffId, subject: text, firstMessage:
+   text, authorId: StaffId) -> (ThreadId);
+  deleteGradeCategory: (id: CategoryId) -> (bool);
+  deleteGradebookAssignment: (id: AssignmentId) -> (bool);
+  deleteStudent: (id: StudentId, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  detectScheduleConflicts: () -> (vec text) query;
+  dismissSignal: (id: SignalId, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  emitNotification: (recipientId: StaffId, eventType: NotificationEventType,
+   tier: NotificationTier, title: text, body: text, relatedId: opt nat,
+   relatedType: opt text) -> (NotificationId);
+  enrollStudent: (activityId: ActivityId, studentId: text) ->
+   (variant {
+      err: text;
+      ok: ActivityRoster;
+    });
+  exportAttendanceCSV: (courseId: CourseId, dateRange:
+   opt record {
+         text;
+         text;
+       }) -> (text) query;
+  exportClassReport: (courseId: CourseId, term: text) -> (ClassReport) query;
+  exportGradebookCSV: (courseId: CourseId, term: text) -> (text) query;
+  flagCostBarrier: (slipId: PermissionSlipId) -> (variant {
+                                                    err: text;
+                                                    ok;
+                                                  });
+  generateReportCardData: (studentId: StudentId, term: text) ->
+   (ReportCardData) query;
+  generateSlotsFromTimetable: (teacherId: text) -> (vec ConferenceSlot);
+  generateTimetable: () -> (variant {
+                              err: text;
+                              ok: nat;
+                            });
+  getActivities: () -> (vec Activity) query;
+  getActivityRoster: (activityId: ActivityId) -> (vec ActivityRoster) query;
+  getAnnouncements: (roleFilter: opt Role) -> (vec Announcement) query;
+  getAppointments: (counsellorId: StaffId) -> (vec Appointment) query;
+  getAssignmentsByCourse: (courseId: CourseId, term: text) ->
+   (vec Assignment) query;
+  getAssignmentsForCourse: (courseId: CourseId) -> (vec Assignment) query;
+  getAttendancePattern: (studentId: StudentId) -> (AttendancePattern) query;
+  getAvailableSlots: (teacherId: text) -> (vec ConferenceSlot) query;
+  getBoardItems: (channelId: opt ChannelId) -> (vec BoardItem) query;
+  getBookingsForParent: (parentId: text) -> (vec ConferenceBooking) query;
+  getBookingsForTeacher: (teacherId: text) -> (vec ConferenceBooking) query;
+  getCaseload: (counsellorId: StaffId) -> (vec CaseloadStudent) query;
+  getCaseloadInsight: (spedCoordId: StaffId) -> (CaseloadSummary) query;
+  getCaseloadStudent: (counsellorId: StaffId, studentId: StudentId) ->
+   (variant {
+      err: text;
+      ok: CaseloadEntry;
+    }) query;
+  getChannelMessages: (channelId: ChannelId, limit: nat, offset: nat) ->
+   (vec ChannelMessage) query;
+  getChannels: () -> (vec Channel) query;
+  getClassGradebook: (courseId: CourseId, term: text) ->
+   (vec ClassGradebookEntry) query;
+  getCoTeacherClasses: (teacherId: text) -> (vec CoTeacherClassRow) query;
+  getCommitmentById: (id: CommitmentId) -> (opt Commitment) query;
+  getCommitmentSurfacing: (ownerId: StaffId) -> (CommitmentSurfacing) query;
+  getComplianceItems: (spedCoordId: StaffId) -> (vec ComplianceItem) query;
+  getCounsellorCaseload: (counsellorId: text) -> (vec StudentId) query;
+  getCourse: (id: CourseId) -> (opt Course) query;
+  getCourseRoster: (courseId: CourseId) -> (vec StudentId) query;
+  getCourseWithUnits: (courseId: CourseId) -> (opt Course) query;
+  getCourses: (teacherId: opt StaffId) -> (vec Course) query;
+  getCurrentRole: () -> (Role) query;
+  getCurriculumOverview: () -> (vec CurriculumCourseRow) query;
+  getDevUser: (role: Role) -> (opt Staff) query;
+  getDistrictHealthSummary: () -> (DistrictHealthSummary) query;
+  getEarlyWarningRoster: () ->
+   (vec
+     record {
+       attendanceRate: float64;
+       avgGrade: float64;
+       flags: vec text;
+       grade: nat;
+       incidentCount: nat;
+       name: text;
+       studentId: StudentId;
+       tier: nat;
+     }) query;
+  getEligibilityThresholds: () ->
+   (record {
+      attendanceMin: float64;
+      gpaMin: float64;
+    }) query;
+  getFieldTrips: () -> (vec FieldTrip) query;
+  getHandoffLog: (classId: text) -> (vec HandoffLogEntry) query;
+  getIEP: (studentId: StudentId) -> (opt IEPDetail) query;
+  getIEPCaseload: (spedCoordId: StaffId) -> (vec IEPStudent) query;
+  getInbox: (userId: StaffId) -> (vec Thread) query;
+  getIncident: (id: IncidentId) -> (opt Incident) query;
+  getIncidentPattern: (studentId: StudentId) -> (IncidentPattern) query;
+  getInterventions: (studentId: StudentId) -> (vec Intervention) query;
+  getInterventionsByOwner: (counsellorId: StaffId) ->
+   (vec Intervention) query;
+  getLessonsForUnit: (unitId: UnitId) -> (vec Lesson) query;
+  getMasterTimetable: () -> (vec ClassMeeting) query;
+  getMessages: (threadId: ThreadId) -> (vec Message) query;
+  getMorningPicture: () -> (MorningPicture) query;
+  getMyAccount: () -> (opt Account) query;
+  getNotifications: (userId: StaffId) -> (vec Notification) query;
+  getOverloadFlags: (courseId: opt CourseId, term: opt text) ->
+   (vec OverloadFlag) query;
+  getPermissionSlips: (tripId: FieldTripId) -> (vec PermissionSlip) query;
+  getReportCard: (studentId: StudentId, termId: text) -> (ReportCard) query;
+  getServiceHours: (studentId: text) -> (vec ServiceHoursEntry) query;
+  getSignalContext: (id: SignalId) -> (opt UnderstandingSignal) query;
+  getSmartPreFill: (courseId: CourseId, date: text) ->
+   (vec AttendanceRecord) query;
+  getStaffMember: (id: StaffId) -> (opt Staff) query;
+  getStaffMembers: () -> (vec Staff) query;
+  getStudent: (id: StudentId, ctx: RoleContext) -> (opt Student) query;
+  getStudentAssignments: (studentId: StudentId) ->
+   (vec AssignmentWithStatus) query;
+  getStudentAuditTrail: (id: StudentId) -> (vec AuditEntry__1) query;
+  getStudentCourses: (studentId: StudentId) -> (vec CourseId) query;
+  getStudentFullRecord: (id: StudentId, ctx: RoleContext) ->
+   (opt StudentFullRecord) query;
+  getStudentGradebookSummary: (studentId: StudentId) ->
+   (vec StudentGradebookClassSummary) query;
+  getStudentGrades: (studentId: StudentId) -> (vec StudentGradeView) query;
+  getStudentRoster: (_ctx: RoleContext) -> (vec StudentRosterRow) query;
+  getStudentSchedule: (studentId: StudentId) -> (vec ClassMeeting) query;
+  getStudentTranscript: (studentId: StudentId) -> (StudentTranscript) query;
+  getSubstituteDayClasses: (date: int, substituteId: text) ->
+   (vec SubstituteClass) query;
+  getSubstituteEndOfDay: (date: int, substituteId: text) ->
+   (SubstituteEndOfDay) query;
+  getTeacherSchedule: (teacherId: StaffId) -> (vec ClassMeeting) query;
+  getThread: (threadId: ThreadId) -> (opt Thread) query;
+  getThreads: (userId: StaffId) -> (vec Thread) query;
+  getThresholdViolations: (ctx: RoleContext) -> (vec AttendancePattern) query;
+  getTrajectory: (studentId: StudentId, courseId: opt CourseId) ->
+   (vec TrajectoryResult) query;
+  getTranscript: (studentId: StudentId) -> (vec TranscriptTerm) query;
+  getUnderstandingSignals: (role: Role, userId: StaffId) ->
+   (vec SignalCard) query;
+  getUnitsForCourse: (courseId: CourseId) -> (vec Unit) query;
+  getUnreadCount: (userId: StaffId) -> (nat) query;
+  getUnreadNotificationCount: (userId: StaffId) -> (nat) query;
+  getWeightedAverage: (studentId: StudentId, courseId: CourseId, term:
+   text) -> (WeightedAverageResult) query;
+  getWhatNeedsYouToday: (role: Role, userId: StaffId) ->
+   (vec UnderstandingSignal) query;
+  isDemoDataLoaded: () -> (bool) query;
+  listAttendanceByStudent: (studentId: StudentId, fromDate: opt text, toDate:
+   opt text) -> (vec AttendanceRecord) query;
+  listCommitmentsByOwner: (ownerId: StaffId, status: opt CommitmentStatus) ->
+   (vec Commitment) query;
+  listCommitmentsByStudent: (studentId: StudentId) -> (vec Commitment) query;
+  listGradeCategories: (classId: CourseId) -> (vec GradeCategory) query;
+  listGradebookAssignments: (classId: CourseId) -> (vec AssignmentV2) query;
+  listGradesByCourse: (courseId: CourseId, term: text) -> (vec Grade) query;
+  listGradesByStudent: (studentId: StudentId, courseId: opt CourseId, term:
+   opt text) -> (vec Grade) query;
+  listIncidentsByStudent: (studentId: StudentId, ctx: RoleContext) ->
+   (vec Incident) query;
+  listIncidentsForRole: (ctx: RoleContext) -> (vec Incident) query;
+  listReportableStudents: (teacherId: StaffId) -> (vec StudentSummary) query;
+  listScores: (assignmentId: AssignmentId) -> (vec Score) query;
+  listScoresByClass: (classId: CourseId) -> (vec Score) query;
+  listSignalsByRole: (ctx: RoleContext) -> (vec UnderstandingSignal) query;
+  listStudents: (page: nat, pageSize: nat, ctx: RoleContext) ->
+   (PaginatedStudents) query;
+  logIncident: (incident: Incident, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok: Incident;
+    });
+  logServiceHours: (entry: ServiceHoursEntry) -> (variant {
+                                                    err: text;
+                                                    ok;
+                                                  });
+  markAllNotificationsRead: (userId: StaffId) -> (variant {
+                                                    err: text;
+                                                    ok;
+                                                  });
+  markCommitmentComplete: (id: CommitmentId) ->
+   (variant {
+      err: text;
+      ok: Commitment;
+    });
+  markIEPRenewed: (studentId: StudentId, renewedDate: Timestamp, reviewedBy:
+   StaffId) -> (UpdateResult);
+  markNotificationRead: (notificationId: NotificationId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  markRead: (messageId: MessageId) -> (variant {
+                                         err: text;
+                                         ok;
+                                       });
+  markThreadRead: (userId: StaffId, threadId: ThreadId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  postAnnouncement: (authorId: StaffId, title: text, body: text, targetRoles:
+   vec Role, priority: AnnouncementPriority) -> (AnnouncementId);
+  postMessage: (channelId: ChannelId, authorId: text, content: text,
+   mentionedUsers: vec text, parentId: opt ChannelMsgId) ->
+   (variant {
+      err: text;
+      ok: ChannelMessage;
+    });
+  recordAttendance: ("record": AttendanceRecord) ->
+   (variant {
+      err: text;
+      ok: AttendanceRecord;
+    });
+  register: (role: Role, userId: nat, displayName: text) ->
+   (variant {
+      err: text;
+      ok: Account;
+    });
+  replyToAnnouncement: (announcementId: AnnouncementId, body: text,
+   replierId: StaffId) -> (variant {
+                             err: text;
+                             ok: MessageId;
+                           });
+  replyToThread: (threadId: ThreadId, body: text, fromId: StaffId) ->
+   (variant {
+      err: text;
+      ok: MessageId;
+    });
+  routeIncident: (id: IncidentId, routedTo: text, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok: Incident;
+    });
+  sendMessage: (toUserId: StaffId, subject: text, body: text, threadId:
+   opt ThreadId, fromId: StaffId) -> (variant {
+                                        err: text;
+                                        ok: MessageId;
+                                      });
+  setEligibilityThresholds: (gpaMin: float64, attendanceMin: float64) -> ();
+  setScore: (assignmentId: AssignmentId, studentId: StudentId, pointsEarned:
+   opt nat) -> (Score);
+  signPermissionSlip: (slipId: PermissionSlipId, signedBy: text) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  submitAssignment: (studentId: StudentId, assignmentId: AssignmentId,
+   submissionText: text) -> (variant {
+                               err: text;
+                               ok: Submission;
+                             });
+  surfaceSignalsForRole: (ctx: RoleContext) ->
+   (vec UnderstandingSignal) query;
+  switchDevRole: (role: Role) -> (variant {
+                                    err: text;
+                                    ok;
+                                  });
+  togglePin: (boardItemId: BoardItemId, pinnedBy: text) ->
+   (variant {
+      err: text;
+      ok: BoardItem;
+    });
+  transitionCommitmentStatus: (id: CommitmentId, newStatus: CommitmentStatus,
+   note: text, ctx: RoleContext) -> (variant {
+                                       err: text;
+                                       ok: Commitment;
+                                     });
+  updateAssignment: (assignmentId: AssignmentId, name: opt text, description:
+   opt text, dueDate: opt Timestamp, weight: opt float64, points:
+   opt float64) -> (variant {
+                      err: text;
+                      ok: Assignment;
+                    });
+  updateCommitmentStatus: (id: CommitmentId, status: CommitmentStatus) ->
+   (variant {
+      err: text;
+      ok: Commitment;
+    });
+  updateComplianceItem: (itemId: ComplianceItemId, status: ComplianceStatus,
+   notes: opt text) -> (UpdateResult);
+  updateCourse: (courseId: CourseId, name: opt text, code: opt text,
+   department: opt text) -> (variant {
+                               err: text;
+                               ok: Course;
+                             });
+  updateGrade: (grade: Grade, ctx: RoleContext) ->
+   (variant {
+      err: text;
+      ok: Grade;
+    });
+  updateGradeCategory: (id: CategoryId, name: text, weight: nat) ->
+   (opt GradeCategory);
+  updateGradebookAssignment: (id: AssignmentId, name: text, pointsPossible:
+   nat, dueDate: opt text) -> (opt AssignmentV2);
+  updateIEPRenewalDate: (studentId: StudentId, newDate: Timestamp, updatedBy:
+   StaffId) -> (UpdateResult);
+  updateIncidentStatus: (id: IncidentId, status: IncidentStatus, note: 
+   text, ctx: RoleContext) -> (variant {
+                                 err: text;
+                                 ok: Incident;
+                               });
+  updateInterventionOutcome: (interventionId: InterventionId, outcome: 
+   text, notes: text) -> (variant {
+                            err: text;
+                            ok;
+                          });
+  updateLesson: (lessonId: LessonId, name: opt text, description:
+   opt text) -> (variant {
+                   err: text;
+                   ok: Lesson;
+                 });
+  updateScore: (id: ScoreId, pointsEarned: opt nat) -> (opt Score);
+  updateStudent: (id: StudentId, student: Student) ->
+   (variant {
+      err: text;
+      ok: Student;
+    });
+  updateUnit: (unitId: UnitId, name: opt text) ->
+   (variant {
+      err: text;
+      ok: Unit;
+    });
+  whoami: () -> (principal) query;
+}
